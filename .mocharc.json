@@ -1,0 +1,9 @@
+{
+    "diff": true,
+    "colors": true,
+    "extension": ["ts"],
+    "spec": "src/**/*.test.ts",
+    "require": ["ts-node/register", "dotenv/config"],
+    "timeout": "10000",
+    "watch-ignore": ["dist", "node_modules"]
+}

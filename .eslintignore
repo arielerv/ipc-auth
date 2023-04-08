@@ -1,0 +1,8 @@
+node_modules
+dist
+.nyc_output
+coverage
+init-mongo.js
+plopfile.js
+dummy.test.ts
+commitlint.config.js
