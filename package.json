@@ -10,11 +10,11 @@
     "test:ci": "NODE_ENV=test ./node_modules/.bin/mocha --timeout=10000 --reporter=spec --check-leaks",
     "coverage": "./node_modules/.bin/nyc --reporter=text-summary npm run test:ci",
     "coverage:verbose": "./node_modules/.bin/nyc --reporter=html --reporter=text npm run test:ci",
-    "docker:dev": "docker container prune -f && COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 BUILDKIT_PROGRESS=plain docker-compose up",
     "build": "./node_modules/.bin/tsc -p .",
     "prestart": "npm run build",
     "start": "node --trace-warnings ./dist/src/index.js",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "prepare": "husky install"
   },
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
@@ -34,17 +34,17 @@
     "url": "git+https://github.com/dev/ipc/ipc-auth.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "INDEC (https://github.com/indec-it)",
   "license": "MIT",
   "bugs": {
     "url": "https://gitlab.indec.gob.ar/dev/ipc/ipc-auth/issues"
   },
   "homepage": "https://gitlab.indec.gob.ar/dev/ipc/ipc-auth#readme",
   "devDependencies": {
-    "@commitlint/cli": "^17.5.1",
-    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@types/chai": "^4.3.4",
+    "@types/chai": "^4.3.5",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/ioredis": "^4.28.10",
@@ -53,34 +53,34 @@
     "@types/node-fetch": "^2.6.3",
     "@types/swagger-jsdoc": "^6.0.1",
     "@types/swagger-ui-express": "^4.1.3",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
-    "eslint": "^8.38.0",
+    "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-mocha": "^10.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.1",
+    "lint-staged": "^13.2.2",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
     "nyc": "^15.1.0",
     "organize-imports-cli": "^0.10.0",
     "plop": "^3.1.2",
-    "prettier": "^2.8.7"
+    "prettier": "^2.8.8"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "morgan": "^1.10.0",
-    "node-fetch": "^2.6.9",
+    "node-fetch": "^3.3.1",
     "node-mocks-http": "^1.12.2",
     "save-dev": "^0.0.1-security",
     "swagger-jsdoc": "6.2.8",
-    "swagger-ui-express": "4.6.2",
+    "swagger-ui-express": "4.6.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "winston": "^3.8.2"

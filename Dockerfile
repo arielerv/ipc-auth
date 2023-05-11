@@ -1,6 +1,8 @@
 #DEPS
 FROM node:14.4-alpine3.11 AS deps
 
+RUN apt-get update && apt-get install -y libaio1 wget unzip
+
 EXPOSE 3300
 WORKDIR /app
 
@@ -32,6 +34,5 @@ RUN chown -R node:node /app/dist
 
 #CLEANUP
 RUN npm prune --production
-USER node
 EXPOSE 3300
 CMD ["node", "./dist/src/index"]

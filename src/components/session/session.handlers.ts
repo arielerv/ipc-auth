@@ -8,7 +8,9 @@ const getUserData = (token: string, userId: string) =>
 export const handlerValidateToken = async (req: RequestBody<Token>, res: Response, next: NextFunction) => {
     try {
         const token = req.body.token;
+        // @ts-ignore
         const { user }: ApiResponse<User> = await validateToken(token);
+        // @ts-ignore
         const [{ entities }, { active }]: UserData = await getUserData(token, user.id);
         res.status(200).send({ success: true, user: { ...user, entities, active } });
     } catch (err) {
@@ -18,7 +20,9 @@ export const handlerValidateToken = async (req: RequestBody<Token>, res: Respons
 
 export const handlerLogin = async (req: RequestBody<Login>, res: Response, next: NextFunction) => {
     try {
+        // @ts-ignore
         const { user, token }: ApiResponse<User> = await login(req.body);
+        // @ts-ignore
         const [{ entities }, { active }]: UserData = await getUserData(token, user.id);
         res.status(200).send({ success: true, user: { ...user, entities, active } });
     } catch (err) {
