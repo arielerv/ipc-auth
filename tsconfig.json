@@ -6,7 +6,7 @@
         "noImplicitAny": true,
         "moduleResolution": "node",
         "sourceMap": false,
-        "outDir": "dist/src",
+        "outDir": "./dist/src",
         "resolveJsonModule": true,
         "allowJs": true,
         "baseUrl": "./",
