@@ -8,3 +8,4 @@ migrations
 .npmrc
 .vscode
 .DS_Store
+coverage
