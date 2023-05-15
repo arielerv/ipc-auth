@@ -24,7 +24,7 @@ export const handlerLogin = async (req: RequestBody<Login>, res: Response, next:
         const { user, token }: ApiResponse<User> = await login(req.body);
         // @ts-ignore
         const [{ entities }, { active }]: UserData = await getUserData(token, user.id);
-        res.status(200).send({ success: true, user: { ...user, entities, active } });
+        res.status(200).send({ success: true, user: { ...user, entities, active }, token });
     } catch (err) {
         next(err);
     }
