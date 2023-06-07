@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY --chown=node:node ./package*.json /app/
 
-RUN npm i --no-audit && npm cache clean --force
+
 
 #TEST
 COPY --chown=node:node ./src ./src
