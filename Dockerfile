@@ -1,36 +1,14 @@
-#DEPS
-FROM node:14.4-alpine3.11 AS deps
+FROM node:14.4-alpine3.11
 
+WORKDIR /srv/app/
 
-
-EXPOSE 3300
-WORKDIR /app
-
-COPY --chown=node:node ./package*.json /app/
+COPY /ipc-auth/ /srv/app/.
 
 RUN npm i --no-audit && npm cache clean --force
 
-#TEST
-COPY --chown=node:node ./src ./src
-COPY --chown=node:node ./tsconfig.json ./
-COPY --chown=node:node ./.mocharc.json ./
-
-RUN npm run test:ci
-
-#BUILD
-FROM node:14.4-alpine3.11 as production
-WORKDIR /app
-
-
-COPY --chown=node:node --from=deps /app/src ./src
-COPY --chown=node:node --from=deps /app/package.json ./
-COPY --chown=node:node --from=deps /app/package-lock.json ./
-COPY --chown=node:node --from=deps /app/node_modules ./node_modules
-COPY --chown=node:node --from=deps /app/tsconfig.json ./
-
 RUN npm run build
 
-RUN chown -R node:node /app/dist
+RUN chown -R node:node /srv/app/dist
 
 #CLEANUP
 RUN npm prune --production
