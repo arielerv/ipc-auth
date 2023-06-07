@@ -8,8 +8,6 @@ RUN npm i --no-audit && npm cache clean --force
 
 RUN npm run build
 
-RUN chown -R node:node /srv/app/dist
-
 #CLEANUP
 RUN npm prune --production
 EXPOSE 3300
