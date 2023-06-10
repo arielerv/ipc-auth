@@ -31,8 +31,8 @@ export const validateToken = async (bearerToken: string) => {
     return response.json();
 };
 
-export const getUserEntities = async (token: string, userId: string) => {
-    const response = await fetch(`${API}/${userId}/entries`, {
+export const getUserData = async (token: string, userId: string) => {
+    const response = await fetch(`${API}/${userId}`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,

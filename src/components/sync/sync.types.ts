@@ -1,5 +1,4 @@
 import { Nullable } from '@/types';
-import { Request } from 'express';
 
 export interface Login {
     username: string;
@@ -9,8 +8,6 @@ export interface Login {
 export interface RequestBody<ReqBody> extends Express.Request {
     body: ReqBody;
 }
-
-export type RequestQuery<T> = Request<unknown, unknown, unknown, T>
 
 export type UserArq = {
     id: string;
