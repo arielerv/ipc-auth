@@ -1,23 +1,26 @@
-import { NextFunction, Response } from 'express';
-import { getUserData, getUserActiveStatus, validateToken, login } from './session.services';
-import { Login, RequestBody, ApiResponse, UserArq, Token, UserData, UserIPC } from '@/components/session/session.types';
+import { getUserData, login } from './session.services';
+import { HandlerLogin } from '../session/session.types';
+import ApiResponse from '../../utils/apiResponse';
 
-export const handlerValidateToken = async (req: RequestBody<{token: Token}>, res: Response, next: NextFunction) => {
+export const handlerLogin: HandlerLogin = async (req, res, next) => {
     try {
-        const token = req.body.token;
-        const { user }: ApiResponse<{user: UserArq}> = await validateToken(token);
-        const [{ entities }, { active }]: UserData = await getUserData(token, user.id);
-        res.status(200).send({ success: true, user: { ...user, entities, active } as UserIPC });
-    } catch (err) {
-        next(err);
-    }
-};
+        const responseArq = await login(req.body);
+        if(responseArq.message) {
+            return res.status(304).json(
+                ApiResponse.errorResponse({ message: responseArq.message })
+            );
+        }
+        const responseIPC = await getUserData(responseArq.token, responseArq.user.id);
+        if(responseIPC.message) {
+            return res.status(304).json(
+                ApiResponse.errorResponse({ message: responseIPC.message })
+            );
+        }
 
-export const handlerLogin = async (req: RequestBody<Login>, res: Response, next: NextFunction) => {
-    try {
-        const { user, token }: ApiResponse<{user: UserArq, token: Token}> = await login(req.body);
-        const userIpc: {user: UserIPC} = await getUserData(token, user.id);
-        res.status(200).send({ success: true, user: { ...user, ...userIpc?.user }, token });
+        res.status(200).json(ApiResponse.successResponse({
+            user: { ...responseArq.user, ...responseIPC?.user },
+            token: responseArq.token,
+        }));
     } catch (err) {
         next(err);
     }

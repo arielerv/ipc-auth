@@ -1,11 +1,11 @@
 import fetch from 'node-fetch';
 import { config } from '../../helpers';
-import { Login } from './session.types';
+import { GetUserData, LoginService } from './session.types';
 
 const API = `${config.ENDPOINT}/v1/users`;
 const OAUTH_API = `${config.AUTH_ENDPOINT}/oauth`;
 
-export const login = async (body: Login) => {
+export const login: LoginService = async (body) => {
     const response = await fetch(`${OAUTH_API}/login`, {
         method: 'POST',
         body: JSON.stringify(body),
@@ -18,20 +18,7 @@ export const login = async (body: Login) => {
     return response.json();
 };
 
-export const validateToken = async (bearerToken: string) => {
-    const token = bearerToken.replace('Bearer ', '');
-    const response = await fetch(`${OAUTH_API}/token`, {
-        method: 'POST',
-        body: JSON.stringify({ token, grant_type: 'client_credentials' }),
-        headers: {
-            'Content-Type': 'application/json',
-            clientId: config.AUTH_CLIENT_ID,
-        },
-    });
-    return response.json();
-};
-
-export const getUserData = async (token: string, userId: string) => {
+export const getUserData: GetUserData = async (token, userId) => {
     const response = await fetch(`${API}/${userId}`, {
         method: 'GET',
         headers: {
