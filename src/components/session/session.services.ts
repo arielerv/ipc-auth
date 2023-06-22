@@ -12,7 +12,7 @@ export const login: LoginService = async (body) => {
         headers: {
             'Content-Type': 'application/json',
             clientId: config.AUTH_CLIENT_ID,
-            redirectUri: 'http://localhost:3006',
+            redirectUri: config.AUTH_REDIRECT_URI,
         },
     });
     return response.json();
