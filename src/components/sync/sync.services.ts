@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { config } from '../../helpers';
-import { Sync } from '../sync/sync.types';
+import { Sync } from './sync.types';
 
 const API = `${config.ENDPOINT}/v1/users`;
 
