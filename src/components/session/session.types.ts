@@ -77,6 +77,7 @@ type ArqLoginResponse = {
     user?: UserArq,
     token?: Token,
     message?: string
+    error?: string
 }
 
 export type LoginService = (body: Login) => Promise<ArqLoginResponse>
