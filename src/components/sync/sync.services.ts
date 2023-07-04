@@ -16,8 +16,6 @@ const getSearchParams = (params: object) => {
     return `?${searchParams.toString()}`;
 };
 
-
-
 export const sync: Sync = async (token, queries) => {
     const response = await fetch(`${API}/sync${getSearchParams(queries)}`, {
         method: 'GET',
