@@ -1,6 +1,6 @@
-import { sync } from './sync.services';
+import { sync, syncUpdate } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
-import { HandlerSync } from '../sync/sync.types';
+import { HandlerSync, HandlerSyncUpdate } from '../sync/sync.types';
 
 export const handlerSync: HandlerSync = async (req, res, next) => {
     try {
@@ -22,3 +22,25 @@ export const handlerSync: HandlerSync = async (req, res, next) => {
         next(err);
     }
 };
+
+export const handlerSyncUpdate: HandlerSyncUpdate = async (req, res, next) => {
+    try {
+        const header = req.get('Authorization');
+        if (!header) {
+            return res.status(401).json(
+                ApiResponse.errorResponse({ message: 'Unauthorized' })
+            );
+        }
+        const token = header.replace('Bearer ', '');
+        const response = await syncUpdate(token, req.body);
+        if(!response.success) {
+            return res.status(300).json(
+                ApiResponse.errorResponse({ message: response?.message || 'error' })
+            );
+        }
+        res.status(200).json(ApiResponse.successResponse(response));
+    } catch (err) {
+        next(err);
+    }
+};
+
