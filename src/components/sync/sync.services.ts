@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { config } from '../../helpers';
-import { Sync } from './sync.types';
+import { Sync, SyncUpdate } from './sync.types';
 
 const API = `${config.ENDPOINT}/v1/users`;
 
@@ -27,3 +27,17 @@ export const sync: Sync = async (token, queries) => {
     });
     return response.json();
 };
+
+export const syncUpdate: SyncUpdate = async (token, body) => {
+    const response = await fetch(`${API}/sync`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+        body: JSON.stringify(body),
+    });
+    return response.json();
+};
+
