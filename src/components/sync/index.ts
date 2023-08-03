@@ -1,8 +1,8 @@
-import { default as SyncApi } from './sync.api';
+import router from './sync.api';
 
 export default [
     {
-        router: SyncApi,
-        routerPrefix: 'workload',
+        router,
+        routerPrefix: 'sync',
     },
 ];

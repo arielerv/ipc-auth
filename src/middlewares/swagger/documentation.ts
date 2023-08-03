@@ -1,4 +1,6 @@
 import swagger from 'swagger-jsdoc';
+import HealthDocs from '../../components/health/docs';
+import SyncDocs from '../../components/sync/docs';
 
 const documentation: swagger.OAS3Options = {
     definition: {
@@ -13,13 +15,21 @@ const documentation: swagger.OAS3Options = {
                 url: '{IPC_AUTH}',
                 variables: {
                     IPC_AUTH: {
-                        enum: ['https://'],
-                        default: 'https://',
+                        enum: ['http://localhost:3300'],
+                        default: 'http://localhost:3300',
                     },
                 },
             },
         ],
-        paths: {},
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },paths: { ...HealthDocs, ...SyncDocs },
     },
     apis: [],
 };
