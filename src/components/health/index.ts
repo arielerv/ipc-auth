@@ -1,8 +1,8 @@
-import { default as HealthApi } from './health.api';
+import router from './health.api';
 
 export default [
     {
-        router: HealthApi,
-        routerPrefix: 'ping',
+        router,
+        routerPrefix: 'health',
     },
 ];
