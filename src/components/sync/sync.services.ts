@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { config } from '../../helpers';
-import { Sync, SyncUpdate } from './sync.types';
+import { Sync, SyncUpdate, GetSurveys } from './sync.types';
 
 const API = `${config.ENDPOINT}/v1/users`;
 
@@ -41,3 +41,14 @@ export const syncUpdate: SyncUpdate = async (token, body) => {
     return response.json();
 };
 
+export const getSurveys: GetSurveys = async (token, queries) => {
+    const response = await fetch(`${API}/surveys${getSearchParams(queries)}`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+    });
+    return response.json();
+};

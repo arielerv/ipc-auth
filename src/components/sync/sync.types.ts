@@ -55,3 +55,18 @@ type SyncUpdateResponse = {
 export type SyncUpdate = (token: string, body: RequestBodySyncUpdate) => Promise<SyncUpdateResponse>
 
 export type Sync = (token: string, queries: RequestQuerySync) => Promise<SyncResponse>
+
+export type RequestQuerySurveys = {
+    userId: string;
+    day: string;
+}
+
+export type HandlerGetSurveys  = (req: Request<null, null, null, RequestQuerySurveys>, res: Response, next: NextFunction) => Promise<Response>
+
+type SyncGetSurveysResponse = {
+    success?: boolean;
+    surveys?: unknown[];
+    message?: string
+}
+
+export type GetSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetSurveysResponse>
