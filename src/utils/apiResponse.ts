@@ -7,7 +7,7 @@ import {
     IErrorResponse,
     ISuccessResponse,
     Status,
-    SuccessResponse,
+    SuccessResponse, SuccessResponseSurvey,
 } from './apiResponse.types';
 
 class ApiResponse {
@@ -17,6 +17,10 @@ class ApiResponse {
             status: Status.success,
             data,
         };
+    }
+
+    static successResponseSurvey(data: ISuccessResponse): SuccessResponseSurvey {
+        return <SuccessResponseSurvey>data;
     }
 
     static errorResponse(data: IErrorResponse): ErrorResponse {

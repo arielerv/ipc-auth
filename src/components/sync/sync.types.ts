@@ -63,7 +63,7 @@ export type RequestQuerySurveys = {
 
 export type HandlerGetSurveys  = (req: Request<null, null, null, RequestQuerySurveys>, res: Response, next: NextFunction) => Promise<Response>
 
-type SyncGetSurveysResponse = {
+export type SyncGetSurveysResponse = {
     success?: boolean;
     surveys?: unknown[];
     message?: string
