@@ -3,8 +3,8 @@ import { handlerSync, handlerSyncUpdate, handlerGetSurveys } from './sync.handle
 
 const router = Router();
 
-router.get('/sync', handlerSync);
-router.post('/sync', handlerSyncUpdate);
+router.get('/workload/', handlerSync);
+router.post('/surveys/', handlerSyncUpdate);
 router.get('/surveys/', handlerGetSurveys);
 
 export default router;

@@ -36,6 +36,11 @@ export interface SuccessResponse extends IApiResponse {
     data: ISuccessResponse;
 }
 
+export interface SuccessResponseSurvey extends IApiResponse {
+    success: boolean;
+    survey: ISuccessResponse;
+}
+
 export interface ErrorResponse extends IApiResponse {
     success: boolean;
     status: Status.error;

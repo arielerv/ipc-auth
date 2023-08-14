@@ -38,7 +38,7 @@ export const handlerSyncUpdate: HandlerSyncUpdate = async (req, res, next) => {
                 ApiResponse.errorResponse({ message: response?.message || 'error' })
             );
         }
-        res.status(200).json(ApiResponse.successResponse(response));
+        res.status(200).json(ApiResponse.successResponse(response.message));
     } catch (err) {
         next(err);
     }
@@ -59,7 +59,7 @@ export const handlerGetSurveys: HandlerGetSurveys = async (req, res, next) => {
                 ApiResponse.errorResponse({ message: response?.message || 'error' })
             );
         }
-        res.status(200).json(ApiResponse.successResponse({ ...response.surveys || [] }));
+        res.status(200).json(ApiResponse.successResponseSurvey(response || [] ));
     } catch (err) {
         next(err);
     }

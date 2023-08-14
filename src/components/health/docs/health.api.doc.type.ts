@@ -6,11 +6,14 @@ interface HealthEndpoint {
         responses: {
             200: {
                 description: string;
-                content: Record<string, unknown>;
-            };
-            500: {
-                description: string;
-                content: Record<string, unknown>;
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: string;
+                            properties: Record<string, unknown>;
+                        };
+                    };
+                };
             };
         };
     };
