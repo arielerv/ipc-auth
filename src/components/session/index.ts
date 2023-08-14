@@ -1,8 +1,8 @@
-import { default as SessionApi } from './session.api';
+import router from './session.api';
 
 export default [
     {
-        router: SessionApi,
+        router,
         routerPrefix: 'session',
     },
 ];

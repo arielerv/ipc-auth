@@ -9,11 +9,27 @@ const getHealthEndpoint: HealthEndpoints = {
             responses: {
                 200: {
                     description: 'Success response, the microservice is alive',
-                    content: {},
-                },
-                500: {
-                    description: 'Error response, the microservice is down',
-                    content: {},
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    app: {
+                                        type: 'number',
+                                        example: 200,
+                                    },
+                                    be: {
+                                        type: 'number',
+                                        example: 200,
+                                    },
+                                    arq: {
+                                        type: 'number',
+                                        example: 200,
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
             },
         },
