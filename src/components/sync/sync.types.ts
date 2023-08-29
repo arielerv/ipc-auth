@@ -61,7 +61,7 @@ export type RequestQuerySurveys = {
     day: string;
 }
 
-export type HandlerGetSurveys  = (req: Request<null, null, null, RequestQuerySurveys>, res: Response, next: NextFunction) => Promise<Response>
+export type HandlerGetSurveys  = (req: Request<null, null, RequestBodySyncUpdate, RequestQuerySurveys>, res: Response, next: NextFunction) => Promise<Response>
 
 export type SyncGetSurveysResponse = {
     success?: boolean;

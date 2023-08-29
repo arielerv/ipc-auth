@@ -4,7 +4,7 @@ import {
     CreateIBulkResponse,
     ErrorResponse,
     IBulkResponse,
-    IErrorResponse,
+    IErrorResponse, IErrorResponseStep,
     ISuccessResponse,
     Status,
     SuccessResponse, SuccessResponseSurvey,
@@ -21,6 +21,14 @@ class ApiResponse {
 
     static successResponseSurvey(data: ISuccessResponse): SuccessResponseSurvey {
         return <SuccessResponseSurvey>data;
+    }
+
+    static errorResponseStep(data: IErrorResponseStep): ErrorResponse {
+        return {
+            success: false,
+            status: Status.error,
+            data,
+        };
     }
 
     static errorResponse(data: IErrorResponse): ErrorResponse {

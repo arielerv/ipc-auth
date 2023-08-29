@@ -1,8 +1,9 @@
-import { sync, syncUpdate, getSurveys } from './sync.services';
+import { getWorkload, updateSurvey, getSurveys } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
-import { HandlerGetSurveys, HandlerSync, HandlerSyncUpdate } from '../sync/sync.types';
+import { HandlerGetSurveys } from '../sync/sync.types';
 
-export const handlerSync: HandlerSync = async (req, res, next) => {
+// @ts-ignore
+export const handleSync: HandlerGetSurveys = async (req, res, next) => {
     try {
         const header = req.get('Authorization');
         if (!header) {
@@ -11,55 +12,41 @@ export const handlerSync: HandlerSync = async (req, res, next) => {
             );
         }
         const token = header.replace('Bearer ', '');
-        const response = await sync(token, req.query);
-        if(response.message || !response.success) {
-            return res.status(300).json(
-                ApiResponse.errorResponse({ message: response?.message || 'error' })
-            );
-        }
-        res.status(200).json(ApiResponse.successResponse({ panels: response.panels || [] }));
-    } catch (err) {
-        next(err);
-    }
-};
 
-export const handlerSyncUpdate: HandlerSyncUpdate = async (req, res, next) => {
-    try {
-        const header = req.get('Authorization');
-        if (!header) {
-            return res.status(401).json(
-                ApiResponse.errorResponse({ message: 'Unauthorized' })
-            );
+        //Update surveys
+        // @ts-ignore
+        if(req.body?.length) {
+            // @ts-ignore
+            const responseUpdate = await updateSurvey(token, req.body);
+            if(!responseUpdate.success) {
+                return res.status(300).json(
+                    ApiResponse.errorResponseStep({ error: 'updateSurvey', message: responseUpdate?.message || 'error' })
+                );
+            }
         }
-        const token = header.replace('Bearer ', '');
-        const response = await syncUpdate(token, req.body);
-        if(!response.success) {
-            return res.status(300).json(
-                ApiResponse.errorResponse({ message: response?.message || 'error' })
-            );
-        }
-        res.status(200).json(ApiResponse.successResponse(response.message));
-    } catch (err) {
-        next(err);
-    }
-};
+        // @ts-ignore
+        const month = req.body.month || new Date().getMonth() + 1;
 
-export const handlerGetSurveys: HandlerGetSurveys = async (req, res, next) => {
-    try {
-        const header = req.get('Authorization');
-        if (!header) {
-            return res.status(401).json(
-                ApiResponse.errorResponse({ message: 'Unauthorized' })
-            );
-        }
-        const token = header.replace('Bearer ', '');
-        const response = await getSurveys(token, req.query);
-        if(response.message || !response.success) {
+        //get workload
+        // @ts-ignore
+        const responseWorkload = await getWorkload(token, { ...req.query, month });
+        // @ts-ignore
+        if(responseWorkload.message || !responseWorkload.success) {
             return res.status(300).json(
-                ApiResponse.errorResponse({ message: response?.message || 'error' })
+                // @ts-ignore
+                ApiResponse.errorResponseStep({ error: 'getWorkload', message: responseWorkload?.message || 'error' })
             );
         }
-        res.status(200).json(ApiResponse.successResponseSurvey(response || [] ));
+
+        //get surveys
+        const responseSurveys = await getSurveys(token, req.query);
+        if(responseSurveys.message || !responseSurveys.success) {
+            return res.status(300).json(
+                ApiResponse.errorResponseStep({ error: 'getSurveys', message: responseSurveys?.message || 'error' })
+            );
+        }
+        // @ts-ignore
+        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || [], surveys: responseSurveys.surveys }));
     } catch (err) {
         next(err);
     }

@@ -7,6 +7,11 @@ export interface IErrorResponse {
     message?: string;
 }
 
+export interface IErrorResponseStep {
+    error?: string;
+    message?: string;
+}
+
 export type ISuccessResponse = unknown
 
 export enum BulkStatus {
