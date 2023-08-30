@@ -8,7 +8,8 @@ import routesMiddleware from './routes';
 import applySwagger from './swagger';
 
 export default (app: Application): void => {
-    config.NODE_ENV !== 'production' && applySwagger(app);
+    //TODO change to 'production' when it's deployed
+    config.NODE_ENV !== 'test' && applySwagger(app);
     app.use(corsMiddleware);
     app.use(loggingMiddleware());
     app.use(json({ limit: config.BODY_LIMIT }));
