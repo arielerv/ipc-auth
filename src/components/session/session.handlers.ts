@@ -8,7 +8,7 @@ export const handlerLogin: HandlerLogin = async (req, res, next) => {
         const responseArq = await login(req.body);
         if(responseArq.error) {
             return res.status(403).json(
-                ApiResponse.errorResponse({ message: responseArq.error || messages.GENERAL_ERROR })
+                ApiResponse.errorResponse({ message: responseArq.error })
             );
         }
         if(!responseArq.user) {
