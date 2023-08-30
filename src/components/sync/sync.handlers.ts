@@ -2,7 +2,6 @@ import { getWorkload, updateSurvey, getSurveys } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
 import { HandlerGetSurveys } from '../sync/sync.types';
 
-// @ts-ignore
 export const handleSync: HandlerGetSurveys = async (req, res, next) => {
     try {
         const header = req.get('Authorization');
@@ -12,25 +11,25 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
         const token = header.replace('Bearer ', '');
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const month = req.query?.month || new Date().getMonth() + 1;
 
         //Update surveys
         // @ts-ignore
-        if(req.body?.length) {
+        if(req.body?.surveys?.length) {
             // @ts-ignore
-            const responseUpdate = await updateSurvey(token, req.body);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            const responseUpdate = await updateSurvey(token, req.body.surveys);
             if(!responseUpdate.success) {
                 return res.status(300).json(
                     ApiResponse.errorResponseStep({ error: 'updateSurvey', message: responseUpdate?.message || 'error' })
                 );
             }
         }
-        // @ts-ignore
-        const month = req.body.month || new Date().getMonth() + 1;
 
         //get workload
         // @ts-ignore
         const responseWorkload = await getWorkload(token, { ...req.query, month });
-        // @ts-ignore
         if(responseWorkload.message || !responseWorkload.success) {
             return res.status(300).json(
                 // @ts-ignore
@@ -45,7 +44,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
                 ApiResponse.errorResponseStep({ error: 'getSurveys', message: responseSurveys?.message || 'error' })
             );
         }
-        // @ts-ignore
+
         res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || [], surveys: responseSurveys.surveys }));
     } catch (err) {
         next(err);

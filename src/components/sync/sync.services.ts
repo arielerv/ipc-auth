@@ -17,7 +17,7 @@ export const getWorkload: Sync = async (token, queries) => {
     return response.json();
 };
 
-export const updateSurvey: SyncUpdate = async (token, body) => {
+export const updateSurvey: SyncUpdate = async (token, surveys) => {
     const response = await fetch(`${API}/sync`, {
         method: 'POST',
         headers: {
@@ -25,7 +25,7 @@ export const updateSurvey: SyncUpdate = async (token, body) => {
             'Content-Type': 'application/json',
             Accept: 'application/json',
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(surveys),
     });
     return response.json();
 };

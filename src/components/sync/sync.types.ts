@@ -7,9 +7,7 @@ export type RequestQuerySync = {
     day?: string;
 }
 
-export type RequestBodySyncUpdate = {
- surveys: Array<Survey>;
-}
+export type RequestBodySyncUpdate = Array<Survey>
 
 interface Survey {
     userId: string,
@@ -52,11 +50,12 @@ type SyncUpdateResponse = {
     message?: string
 }
 
-export type SyncUpdate = (token: string, body: RequestBodySyncUpdate) => Promise<SyncUpdateResponse>
+export type SyncUpdate = (token: string, surveys: RequestBodySyncUpdate) => Promise<SyncUpdateResponse>
 
 export type Sync = (token: string, queries: RequestQuerySync) => Promise<SyncResponse>
 
 export type RequestQuerySurveys = {
+    month?: number;
     userId: string;
     day: string;
 }

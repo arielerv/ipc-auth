@@ -4,11 +4,11 @@ import ApiResponse from '../../utils/apiResponse';
 
 export default (
     err: Error,
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction
 ): void => {
-    const message = 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde.';
+    const message = err?.message || (typeof err === 'string' ? err : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde.');
     const isOperational: boolean = handleError(err as AppError);
     if (!isOperational) {
         res.status(500).json(

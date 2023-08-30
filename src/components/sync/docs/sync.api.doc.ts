@@ -22,6 +22,13 @@ const getSyncEndpoint: SyncEndpoints = {
                     required: false,
                     schema: { type: 'integer', example: 28 },
                 },
+                {
+                    description: 'month',
+                    in: 'query',
+                    name: 'month',
+                    required: false,
+                    schema: { type: 'integer', example: 10 },
+                },
             ],
             requestBody: {
                 required: true,
