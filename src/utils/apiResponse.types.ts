@@ -7,6 +7,11 @@ export interface IErrorResponse {
     message?: string;
 }
 
+export interface IErrorResponseStep {
+    error?: string;
+    message?: string;
+}
+
 export type ISuccessResponse = unknown
 
 export enum BulkStatus {
@@ -25,7 +30,9 @@ export interface IBulkResponse extends CreateIBulkResponse {
     bulkStatus: BulkStatus;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export type ResponseType = IErrorResponse | ISuccessResponse | IBulkResponse;
+
 export interface IApiResponse {
     status: Status;
     data: ResponseType;

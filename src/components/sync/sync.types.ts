@@ -7,9 +7,7 @@ export type RequestQuerySync = {
     day?: string;
 }
 
-export type RequestBodySyncUpdate = {
- surveys: Array<Survey>;
-}
+export type RequestBodySyncUpdate = Array<Survey>
 
 interface Survey {
     userId: string,
@@ -52,16 +50,17 @@ type SyncUpdateResponse = {
     message?: string
 }
 
-export type SyncUpdate = (token: string, body: RequestBodySyncUpdate) => Promise<SyncUpdateResponse>
+export type SyncUpdate = (token: string, surveys: RequestBodySyncUpdate) => Promise<SyncUpdateResponse>
 
 export type Sync = (token: string, queries: RequestQuerySync) => Promise<SyncResponse>
 
 export type RequestQuerySurveys = {
+    month?: number;
     userId: string;
     day: string;
 }
 
-export type HandlerGetSurveys  = (req: Request<null, null, null, RequestQuerySurveys>, res: Response, next: NextFunction) => Promise<Response>
+export type HandlerGetSurveys  = (req: Request<null, null, RequestBodySyncUpdate, RequestQuerySurveys>, res: Response, next: NextFunction) => Promise<Response>
 
 export type SyncGetSurveysResponse = {
     success?: boolean;
