@@ -17,7 +17,14 @@ interface PostSurvey {
             name: string,
             required: boolean,
             schema: {type: string, example: number}
-        }
+        },
+        {
+            description: string,
+            in: string,
+            name: string,
+            required: boolean,
+            schema: {type: string, example: number}
+        },
     ],
     requestBody: {
         required: boolean;
