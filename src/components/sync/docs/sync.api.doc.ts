@@ -186,6 +186,22 @@ const getSyncEndpoint: SyncEndpoints = {
                                             },
                                         },
                                     },
+                                    staticData: {
+                                        type: 'Object',
+                                        properties: {
+                                            rejections: {
+                                                type: 'array',
+                                                items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        status: { type: 'integer' },
+                                                        description: { type: 'string' },
+                                                        requiredComments: { type: 'boolean' },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
                                 },
                             },
                         },

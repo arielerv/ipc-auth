@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 
-
 export type RequestQuerySync = {
     userId: string;
     entityId: string;
@@ -38,7 +37,6 @@ export type HandlerSync = (req: Request<null, null, null, RequestQuerySync>, res
 
 export type HandlerSyncUpdate = (req: Request<null, null, RequestBodySyncUpdate>, res: Response, next: NextFunction) => Promise<Response>
 
-
 type SyncResponse = {
     success?: boolean;
     panels?: unknown[];
@@ -68,4 +66,12 @@ export type SyncGetSurveysResponse = {
     message?: string
 }
 
+export type SyncGetInformantReasonsRejectedResponse = {
+  rejections?: unknown[];
+  success?: boolean;
+  message?: string
+}
+
 export type GetSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetSurveysResponse>
+
+export type GetInformantReasonsRejected = (token: string) => Promise<SyncGetInformantReasonsRejectedResponse>

@@ -1,4 +1,4 @@
-import { getWorkload, updateSurvey, getSurveys } from './sync.services';
+import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
 import { HandlerGetSurveys } from '../sync/sync.types';
 
@@ -45,7 +45,16 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
 
-        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || [], surveys: responseSurveys.surveys }));
+        //get Informant Reasons rejected
+        const responseInformantsRejections = await getInformantReasonsRejected(token);
+        const rejections = responseInformantsRejections.rejections;
+        if(!responseInformantsRejections.success) {
+            return res.status(300).json(
+                ApiResponse.errorResponseStep({ error: 'getInformantReasonsRejected', message: responseInformantsRejections?.message || 'error' })
+            );
+        }
+
+        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || [], surveys: responseSurveys.surveys, staticData: { rejections } }));
     } catch (err) {
         next(err);
     }
