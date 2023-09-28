@@ -67,7 +67,19 @@ export type SyncGetSurveysResponse = {
 }
 
 export type SyncGetInformantReasonsRejectedResponse = {
-  rejections?: unknown[];
+  informantRejections?: unknown[];
+  success?: boolean;
+  message?: string
+}
+
+export type SyncGetPriceTypesResponse = {
+  priceTypes?: unknown[];
+  success?: boolean;
+  message?: string
+}
+
+export type SyncGetFormRejectionsResponse = {
+  formRejections?: unknown[];
   success?: boolean;
   message?: string
 }
@@ -75,3 +87,9 @@ export type SyncGetInformantReasonsRejectedResponse = {
 export type GetSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetSurveysResponse>
 
 export type GetInformantReasonsRejected = (token: string) => Promise<SyncGetInformantReasonsRejectedResponse>
+
+export type GetPriceTypes = (token: string) => Promise<SyncGetPriceTypesResponse>
+
+export type GetFormRejections = (token: string) => Promise<SyncGetFormRejectionsResponse>
+
+

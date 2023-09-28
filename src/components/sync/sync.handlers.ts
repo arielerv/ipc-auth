@@ -1,4 +1,4 @@
-import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected } from './sync.services';
+import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
 import { HandlerGetSurveys } from '../sync/sync.types';
 
@@ -47,14 +47,32 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
 
         //get Informant Reasons rejected
         const responseInformantsRejections = await getInformantReasonsRejected(token);
-        const rejections = responseInformantsRejections.rejections;
+        const informantRejections = responseInformantsRejections.informantRejections;
         if(!responseInformantsRejections.success) {
             return res.status(300).json(
                 ApiResponse.errorResponseStep({ error: 'getInformantReasonsRejected', message: responseInformantsRejections?.message || 'error' })
             );
         }
 
-        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || [], surveys: responseSurveys.surveys, staticData: { rejections } }));
+        //get Price types
+        const responsePriceTypes = await getPriceTypes(token);
+        const priceTypes = responsePriceTypes.priceTypes;
+        if(!responsePriceTypes.success) {
+            return res.status(300).json(
+                ApiResponse.errorResponseStep({ error: 'getPriceTypes', message: responsePriceTypes?.message || 'error' })
+            );
+        }
+
+        //get Form rejections
+        const responseFormRejections = await getFormRejections(token);
+        const formRejections = responseFormRejections.formRejections;
+        if(!responseFormRejections.success) {
+            return res.status(300).json(
+                ApiResponse.errorResponseStep({ error: 'getFormRejections', message: responseFormRejections?.message || 'error' })
+            );
+        }
+
+        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || [], surveys: responseSurveys.surveys, staticData: { informantRejections, priceTypes, formRejections } }));
     } catch (err) {
         next(err);
     }

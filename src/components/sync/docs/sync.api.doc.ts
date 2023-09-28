@@ -189,7 +189,7 @@ const getSyncEndpoint: SyncEndpoints = {
                                     staticData: {
                                         type: 'Object',
                                         properties: {
-                                            rejections: {
+                                            informantRejections: {
                                                 type: 'array',
                                                 items: {
                                                     type: 'object',
@@ -197,6 +197,26 @@ const getSyncEndpoint: SyncEndpoints = {
                                                         status: { type: 'integer' },
                                                         description: { type: 'string' },
                                                         requiredComments: { type: 'boolean' },
+                                                    },
+                                                },
+                                            },
+                                            priceTypes: {
+                                                type: 'array',
+                                                items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        status: { type: 'string' },
+                                                        description: { type: 'string' },
+                                                    },
+                                                },
+                                            },
+                                            formRejections: {
+                                                type: 'array',
+                                                items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        status: { type: 'integer' },
+                                                        description: { type: 'string' },
                                                     },
                                                 },
                                             },
