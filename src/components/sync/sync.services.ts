@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { config } from '../../helpers';
 import getSearchParams from '../../utils/getSearchParams';
-import { Sync, SyncUpdate, GetSurveys, GetInformantReasonsRejected, GetPriceTypes, GetFormRejections } from './sync.types';
+import { Sync, SyncUpdate, GetSurveys, GetInformantReasonsRejected, GetPriceTypes, GetFormRejections, GetReferenceValues } from './sync.types';
 
 const API = `${config.ENDPOINT}/v1/users`;
 
@@ -77,3 +77,16 @@ export const getFormRejections: GetFormRejections = async (token) => {
     });
     return response.json();
 };
+
+export const getReferenceValues: GetReferenceValues = async (token, queries) => {
+    const response = await fetch(`${API}/sync/reference${getSearchParams(queries)}`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+    });
+    return response.json();
+};
+
