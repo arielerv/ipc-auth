@@ -8,6 +8,7 @@ export type RequestQuerySync = {
 
 export type RequestBodySyncUpdate = Array<Survey>
 
+
 interface Survey {
     userId: string,
     panelId: number,
@@ -72,6 +73,13 @@ export type SyncGetInformantReasonsRejectedResponse = {
   message?: string
 }
 
+export type SyncGetReferenceValuesResponse = {
+  success?: boolean;
+  referenceValues?: unknown[];
+  message?: string
+}
+
+
 export type SyncGetPriceTypesResponse = {
   priceTypes?: unknown[];
   success?: boolean;
@@ -85,6 +93,8 @@ export type SyncGetFormRejectionsResponse = {
 }
 
 export type GetSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetSurveysResponse>
+
+export type GetReferenceValues = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetReferenceValuesResponse>
 
 export type GetInformantReasonsRejected = (token: string) => Promise<SyncGetInformantReasonsRejectedResponse>
 
