@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 
-
 export type RequestQuerySync = {
     userId: string;
     entityId: string;
@@ -8,6 +7,7 @@ export type RequestQuerySync = {
 }
 
 export type RequestBodySyncUpdate = Array<Survey>
+
 
 interface Survey {
     userId: string,
@@ -38,7 +38,6 @@ export type HandlerSync = (req: Request<null, null, null, RequestQuerySync>, res
 
 export type HandlerSyncUpdate = (req: Request<null, null, RequestBodySyncUpdate>, res: Response, next: NextFunction) => Promise<Response>
 
-
 type SyncResponse = {
     success?: boolean;
     panels?: unknown[];
@@ -68,4 +67,39 @@ export type SyncGetSurveysResponse = {
     message?: string
 }
 
+export type SyncGetInformantReasonsRejectedResponse = {
+  informantRejections?: unknown[];
+  success?: boolean;
+  message?: string
+}
+
+export type SyncGetReferenceValuesResponse = {
+  success?: boolean;
+  referenceValues?: unknown[];
+  message?: string
+}
+
+
+export type SyncGetPriceTypesResponse = {
+  priceTypes?: unknown[];
+  success?: boolean;
+  message?: string
+}
+
+export type SyncGetFormRejectionsResponse = {
+  formRejections?: unknown[];
+  success?: boolean;
+  message?: string
+}
+
 export type GetSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetSurveysResponse>
+
+export type GetReferenceValues = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetReferenceValuesResponse>
+
+export type GetInformantReasonsRejected = (token: string) => Promise<SyncGetInformantReasonsRejectedResponse>
+
+export type GetPriceTypes = (token: string) => Promise<SyncGetPriceTypesResponse>
+
+export type GetFormRejections = (token: string) => Promise<SyncGetFormRejectionsResponse>
+
+
