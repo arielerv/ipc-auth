@@ -1,6 +1,8 @@
 import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections, getReferenceValues } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
 import { HandlerGetSurveys } from '../sync/sync.types';
+import SyncLog from '../../schemas/syncLog';
+import { Types } from 'mongoose';
 
 export const handleSync: HandlerGetSurveys = async (req, res, next) => {
     try {
@@ -11,15 +13,13 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
         const token = header.replace('Bearer ', '');
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const month = req.query?.month || new Date().getMonth() + 1;
+        const month = req.query?.month ? Number(req.query?.month) : new Date().getMonth() + 1;
+        const surveys = req.body?.surveys ;
+        const date = new Date();
 
         //Update surveys
-        // @ts-ignore
-        if(req.body?.surveys?.length) {
-            // @ts-ignore
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            const responseUpdate = await updateSurvey(token, req.body.surveys);
+        if(surveys?.length) {
+            const responseUpdate = await updateSurvey(token, surveys);
             if(!responseUpdate.success) {
                 return res.status(300).json(
                     ApiResponse.errorResponseStep({ error: 'updateSurvey', message: responseUpdate?.message || 'error' })
@@ -27,8 +27,18 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             }
         }
 
+        //save sync log
+        const syncLog = new SyncLog({
+            '_id': new Types.ObjectId(),
+            userId: req.query.userId,
+            day: req.query.day,
+            month,
+            year: date.getFullYear(),
+            surveys: surveys?.length ? JSON.stringify(surveys) : null,
+        });
+        await syncLog.save();
+
         //get workload
-        // @ts-ignore
         const responseWorkload = await getWorkload(token, { ...req.query, month });
         if(responseWorkload.message || !responseWorkload.success) {
             return res.status(300).json(
