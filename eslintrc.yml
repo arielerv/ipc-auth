@@ -1,0 +1,23 @@
+env:
+  es2017: true
+  node: true
+  jest: true
+extends:
+  - airbnb-base
+  - "eslint:recommended"
+  - "plugin:import/typescript"
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaVersion: 2020
+  sourceType: module
+  project:
+    - "./tsconfig.json"
+    - "./tsconfig.eslint.json"
+plugins:
+  - "@typescript-eslint"
+settings:
+  "import/resolver":
+    typescript: {}
+ignorePatterns:
+  - ".eslintrc.yml"
+  - "dist/*"
