@@ -2,14 +2,14 @@ import { NextFunction, Request, Response } from 'express';
 
 export type RequestQuerySync = {
     userId: string;
-    entityId: string;
+    entityId?: string;
     day?: string;
+    month?: string | number;
 }
 
-export type RequestBodySyncUpdate = Array<Survey>
+export type RequestBodySyncUpdate = {surveys: Array<Survey>}
 
-
-interface Survey {
+export interface Survey {
     userId: string,
     panelId: number,
     date: string,
@@ -49,7 +49,7 @@ type SyncUpdateResponse = {
     message?: string
 }
 
-export type SyncUpdate = (token: string, surveys: RequestBodySyncUpdate) => Promise<SyncUpdateResponse>
+export type SyncUpdate = (token: string, surveys: Array<Survey>) => Promise<SyncUpdateResponse>
 
 export type Sync = (token: string, queries: RequestQuerySync) => Promise<SyncResponse>
 
