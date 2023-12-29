@@ -73,9 +73,9 @@ export type SyncGetInformantReasonsRejectedResponse = {
   message?: string
 }
 
-export type SyncGetReferenceValuesResponse = {
+export type SyncGetReferenceSurveysResponse = {
   success?: boolean;
-  referenceValues?: unknown[];
+  referenceSurveys?: unknown[];
   message?: string
 }
 
@@ -94,7 +94,7 @@ export type SyncGetFormRejectionsResponse = {
 
 export type GetSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetSurveysResponse>
 
-export type GetReferenceValues = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetReferenceValuesResponse>
+export type GetReferenceSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetReferenceSurveysResponse>
 
 export type GetInformantReasonsRejected = (token: string) => Promise<SyncGetInformantReasonsRejectedResponse>
 
