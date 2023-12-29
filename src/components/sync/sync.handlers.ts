@@ -3,6 +3,7 @@ import ApiResponse from '../../utils/apiResponse';
 import { HandlerGetSurveys } from '../sync/sync.types';
 import SyncLog from '../../schemas/syncLog';
 import { Types } from 'mongoose';
+import { messages } from '@/constants';
 
 export const handleSync: HandlerGetSurveys = async (req, res, next) => {
     try {
@@ -40,10 +41,10 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
 
         //get workload
         const responseWorkload = await getWorkload(token, { ...req.query, month });
-        if(responseWorkload.message || !responseWorkload.success) {
+        if(!responseWorkload.success) {
             return res.status(300).json(
                 // @ts-ignore
-                ApiResponse.errorResponseStep({ error: 'getWorkload', message: responseWorkload?.message || 'error' })
+                ApiResponse.errorResponseStep({ error: 'getWorkload', message: responseWorkload?.message ?? messages.GENERAL_ERROR })
             );
         }
 
