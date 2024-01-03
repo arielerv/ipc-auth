@@ -91,7 +91,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
 
-        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || [], referenceSurveys: responseReferenceSurveys.referenceSurveys, surveys: responseSurveys.surveys, 
+        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || responseWorkload.message, referenceSurveys: responseReferenceSurveys.referenceSurveys || [], surveys: responseSurveys.surveys, 
             staticData: { informantRejections, priceTypes, formRejections } }));
     } catch (err) {
         next(err);
