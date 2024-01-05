@@ -1,8 +1,9 @@
-import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections, getReferenceValues } from './sync.services';
+import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections, getReferenceSurveys } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
 import { HandlerGetSurveys } from '../sync/sync.types';
 import SyncLog from '../../schemas/syncLog';
 import { Types } from 'mongoose';
+import { messages } from '@/constants';
 
 export const handleSync: HandlerGetSurveys = async (req, res, next) => {
     try {
@@ -40,10 +41,10 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
 
         //get workload
         const responseWorkload = await getWorkload(token, { ...req.query, month });
-        if(responseWorkload.message || !responseWorkload.success) {
+        if(!responseWorkload.success) {
             return res.status(300).json(
                 // @ts-ignore
-                ApiResponse.errorResponseStep({ error: 'getWorkload', message: responseWorkload?.message || 'error' })
+                ApiResponse.errorResponseStep({ error: 'getWorkload', message: responseWorkload?.message ?? messages.GENERAL_ERROR })
             );
         }
 
@@ -64,11 +65,11 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
 
-        //get Reference Values
-        const responseReferenceValues = await getReferenceValues(token, req.query);
+        //get Reference Surveys
+        const responseReferenceSurveys = await getReferenceSurveys(token, req.query);
         if(responseSurveys.message || !responseSurveys.success) {
             return res.status(300).json(
-                ApiResponse.errorResponseStep({ error: 'getSurveys', message: responseReferenceValues?.message || 'error' })
+                ApiResponse.errorResponseStep({ error: 'getSurveys', message: responseReferenceSurveys?.message || 'error' })
             );
         }
 
@@ -90,7 +91,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
 
-        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || [], referenceValues: responseReferenceValues.referenceValues, surveys: responseSurveys.surveys, 
+        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || responseWorkload.message, referenceSurveys: responseReferenceSurveys.referenceSurveys || [], surveys: responseSurveys.surveys, 
             staticData: { informantRejections, priceTypes, formRejections } }));
     } catch (err) {
         next(err);
