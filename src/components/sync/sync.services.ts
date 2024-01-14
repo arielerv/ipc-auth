@@ -3,7 +3,7 @@ import { config } from '../../helpers';
 import getSearchParams from '../../utils/getSearchParams';
 import { Sync, SyncUpdate, GetSurveys, GetInformantReasonsRejected, GetPriceTypes, GetFormRejections, GetReferenceSurveys } from './sync.types';
 
-const API = `${config.ENDPOINT}/v1/users`;
+const API = `${config.ENDPOINT}/public-api`;
 
 export const getWorkload: Sync = async (token, queries) => {
     const response = await fetch(`${API}/sync${getSearchParams(queries)}`, {
@@ -43,7 +43,7 @@ export const getSurveys: GetSurveys = async (token, queries) => {
 };
 
 export const getInformantReasonsRejected: GetInformantReasonsRejected = async (token) => {
-    const response = await fetch(`${config.ENDPOINT}/v1/informants/rejections`, {
+    const response = await fetch(`${API}/informants/rejections`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ export const getInformantReasonsRejected: GetInformantReasonsRejected = async (t
 };
 
 export const getPriceTypes: GetPriceTypes = async (token) => {
-    const response = await fetch(`${config.ENDPOINT}/v1/types/price`, {
+    const response = await fetch(`${API}/price/types`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ export const getPriceTypes: GetPriceTypes = async (token) => {
 };
 
 export const getFormRejections: GetFormRejections = async (token) => {
-    const response = await fetch(`${config.ENDPOINT}/v1/forms/rejections`, {
+    const response = await fetch(`${API}/forms/rejections`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
