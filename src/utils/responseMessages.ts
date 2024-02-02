@@ -6,7 +6,7 @@ export const getWorkloadResponse: ( panels: unknown[], surveys: { date: Date }[]
     dateWithoutHours.setHours(0, 0, 0, 0); 
     if (!panels) {
         const isTodaySurvey =
-        surveys?.[0]?.date?.getTime() === dateWithoutHours.getTime();
+        surveys?.[0]?.date === dateWithoutHours;
         if (isTodaySurvey) {
             return successMessages.SUCCESS_DAY_COMPLETED;
         }
