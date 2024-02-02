@@ -12,7 +12,7 @@ export type RequestBodySyncUpdate = {surveys: Array<Survey>}
 export interface Survey {
     userId: string,
     panelId: number,
-    date: string,
+    date: Date,
     entityId: number,
     complete: boolean,
     data: {
@@ -63,7 +63,7 @@ export type HandlerGetSurveys  = (req: Request<null, null, RequestBodySyncUpdate
 
 export type SyncGetSurveysResponse = {
     success?: boolean;
-    surveys?: unknown[];
+    surveys?: Survey[];
     message?: string
 }
 
