@@ -1,5 +1,6 @@
 import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections, getReferenceSurveys } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
+import { getWorkloadResponse } from '../../utils/responseMessages';
 import { HandlerGetSurveys } from '../sync/sync.types';
 import SyncLog from '../../schemas/syncLog';
 import { Types } from 'mongoose';
@@ -17,7 +18,6 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
         const month = req.query?.month ? Number(req.query?.month) : new Date().getMonth() + 1;
         const surveys = req.body?.surveys ;
         const date = new Date();
-
         //Update surveys
         if(surveys?.length) {
             const responseUpdate = await updateSurvey(token, surveys);
@@ -91,8 +91,15 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
 
-        res.status(200).json(ApiResponse.successResponse({ workload: responseWorkload.panels || responseWorkload.message, referenceSurveys: responseReferenceSurveys.referenceSurveys || [], surveys: responseSurveys.surveys, 
-            staticData: { informantRejections, priceTypes, formRejections } }));
+        const workloadMessage = getWorkloadResponse(responseWorkload.panels, surveys);
+        
+        res.status(200).json(ApiResponse.successResponse({
+            workload: responseWorkload.panels,
+            referenceSurveys: responseReferenceSurveys.referenceSurveys || [],
+            surveys: responseSurveys.surveys,
+            message: workloadMessage || responseReferenceSurveys.message || responseSurveys.message,
+            staticData: { informantRejections, priceTypes, formRejections },
+        }));
     } catch (err) {
         next(err);
     }
