@@ -1,6 +1,6 @@
 const enum successMessages {
     SUCCESS_PENDING_WORK = 'Sincronización exitosa, tiene carga de trabajo pendiente.',
-    SUCCESS_NO_LOAD_TODAY = 'Sincronización exitosa, no posee carga en el día de la fecha.',
+    SUCCESS_NO_LOAD_TODAY = 'No tiene carga pendiente de realizar.',
     SUCCESS_DAY_COMPLETED = 'Sincronización exitosa, completó la carga del día de la fecha.'
 }
 
