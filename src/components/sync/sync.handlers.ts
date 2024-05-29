@@ -95,6 +95,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
         
         res.status(200).json(ApiResponse.successResponse({
             workload: responseWorkload.panels,
+            meta: responseWorkload.meta,
             referenceSurveys: responseReferenceSurveys.referenceSurveys || [],
             surveys: responseSurveys.surveys,
             message: workloadMessage || responseReferenceSurveys.message || responseSurveys.message,
