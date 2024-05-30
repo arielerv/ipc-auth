@@ -40,6 +40,7 @@ export type HandlerSyncUpdate = (req: Request<null, null, RequestBodySyncUpdate>
 
 type SyncResponse = {
     success?: boolean;
+    meta?: unknown[];
     panels?: unknown[];
     message?: string
 }
