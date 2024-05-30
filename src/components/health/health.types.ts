@@ -1,3 +1,5 @@
 export interface GetHealthStatus {
-    status: 200 | 500;
+    app: 200 | 500;
+    be: number;
+    arq: number;
 }

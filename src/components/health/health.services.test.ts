@@ -3,9 +3,9 @@ import { getHealthStatus } from './health.services';
 
 describe('Health Services', function () {
     describe('getHealthStatus', function () {
-        it('Should respond successfully', function () {
-            const response = getHealthStatus();
-            expect(response).to.deep.include({ status: 200 });
+        it('Should respond successfully', async function () {
+            const response = await getHealthStatus();
+            expect(response).to.deep.include({ app: 200, be: 304, arq: 200 });
         });
     });
 });

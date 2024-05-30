@@ -1,30 +1,36 @@
-import { NextFunction, Response } from 'express';
-import { getUserEntities, getUserActiveStatus, validateToken, login } from './session.services';
-import { Login, RequestBody, ApiResponse, User, Token, UserData } from '@/components/session/session.types';
+import { getUserData, login } from './session.services';
+import { HandlerLogin } from '../session/session.types';
+import ApiResponse from '../../utils/apiResponse';
+import { messages } from '../../constants';
 
-const getUserData = (token: string, userId: string) =>
-    Promise.all([getUserEntities(token, userId), getUserActiveStatus(token, userId)]);
-
-export const handlerValidateToken = async (req: RequestBody<Token>, res: Response, next: NextFunction) => {
+export const handlerLogin: HandlerLogin = async (req, res, next) => {
     try {
-        const token = req.body.token;
-        // @ts-ignore
-        const { user }: ApiResponse<User> = await validateToken(token);
-        // @ts-ignore
-        const [{ entities }, { active }]: UserData = await getUserData(token, user.id);
-        res.status(200).send({ success: true, user: { ...user, entities, active } });
-    } catch (err) {
-        next(err);
-    }
-};
-
-export const handlerLogin = async (req: RequestBody<Login>, res: Response, next: NextFunction) => {
-    try {
-        // @ts-ignore
-        const { user, token }: ApiResponse<User> = await login(req.body);
-        // @ts-ignore
-        const [{ entities }, { active }]: UserData = await getUserData(token, user.id);
-        res.status(200).send({ success: true, user: { ...user, entities, active }, token });
+        const responseArq = await login(req.body);
+        if(responseArq.error) {
+            return res.status(403).json(
+                ApiResponse.errorResponse({ message: responseArq.error })
+            );
+        }
+        if(!responseArq.user) {
+            return res.status(404).json(
+                ApiResponse.errorResponse({ message: messages.USER_NOT_FOUND })
+            );
+        }
+        const responseIPC = await getUserData(responseArq.token, responseArq.user.id);
+        if(!responseIPC.user) {
+            return res.status(404).json(
+                ApiResponse.errorResponse({ message: messages.USER_NOT_IMPORT })
+            );
+        }
+        if(responseIPC.message) {
+            return res.status(304).json(
+                ApiResponse.errorResponse({ message: responseIPC.message })
+            );
+        }
+        res.status(200).json(ApiResponse.successResponse({
+            user: { ...responseArq.user, ...responseIPC?.user },
+            token: responseArq.token,
+        }));
     } catch (err) {
         next(err);
     }

@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 class Config {
@@ -9,6 +10,7 @@ class Config {
     public readonly BODY_LIMIT: string;
     public readonly AUTH_ENDPOINT: string;
     public readonly AUTH_CLIENT_ID: string;
+    public readonly AUTH_REDIRECT_URI: string;
     public readonly ENDPOINT: string;
 
     constructor() {
@@ -22,6 +24,7 @@ class Config {
         this.AUTH_ENDPOINT = process.env.AUTH_ENDPOINT;
         this.AUTH_CLIENT_ID = process.env.AUTH_CLIENT_ID;
         this.ENDPOINT = process.env.ENDPOINT;
+        this.AUTH_REDIRECT_URI = process.env.AUTH_REDIRECT_URI;
         Config.instance = this;
         return this;
     }
