@@ -66,7 +66,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
         }
 
         //get Reference Surveys
-        const responseReferenceSurveys = await getReferenceSurveys(token, req.query);
+        const responseReferenceSurveys = await getReferenceSurveys(token, { userId:req.query.userId, day: req.query.day });
         if(responseSurveys.message || !responseSurveys.success) {
             return res.status(300).json(
                 ApiResponse.errorResponseStep({ error: 'getSurveys', message: responseReferenceSurveys?.message || 'error' })
