@@ -2,6 +2,8 @@ import { getUserData, login } from './session.services';
 import { HandlerLogin } from '../session/session.types';
 import ApiResponse from '../../utils/apiResponse';
 import { messages } from '../../constants';
+import loginPermission from '../../utils/loginPermission';
+import { TABLET_USERS }  from './enums/roles';
 
 export const handlerLogin: HandlerLogin = async (req, res, next) => {
     try {
@@ -11,6 +13,14 @@ export const handlerLogin: HandlerLogin = async (req, res, next) => {
                 ApiResponse.errorResponse({ message: responseArq.error })
             );
         }
+        const hasPermission = loginPermission(TABLET_USERS, responseArq.user.roles);
+
+        if(!hasPermission) {
+            return res.status(403).json(
+                ApiResponse.errorResponse({ message: messages.USER_WRONG_ROLE })
+            );
+        }
+        
         if(!responseArq.user) {
             return res.status(404).json(
                 ApiResponse.errorResponse({ message: messages.USER_NOT_FOUND })
@@ -22,6 +32,7 @@ export const handlerLogin: HandlerLogin = async (req, res, next) => {
                 ApiResponse.errorResponse({ message: messages.USER_NOT_IMPORT })
             );
         }
+        
         if(responseIPC.message) {
             return res.status(304).json(
                 ApiResponse.errorResponse({ message: responseIPC.message })
