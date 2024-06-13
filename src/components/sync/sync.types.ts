@@ -93,6 +93,12 @@ export type SyncGetFormRejectionsResponse = {
   message?: string
 }
 
+export type SyncGetPriceVariation = {
+  variations?: unknown[];
+  success?: boolean;
+  message?: string
+}
+
 export type GetSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetSurveysResponse>
 
 export type GetReferenceSurveys = (token: string, queries: RequestQuerySurveys) => Promise<SyncGetReferenceSurveysResponse>
@@ -103,4 +109,4 @@ export type GetPriceTypes = (token: string) => Promise<SyncGetPriceTypesResponse
 
 export type GetFormRejections = (token: string) => Promise<SyncGetFormRejectionsResponse>
 
-
+export type GetPriceVariation = (token: string) => Promise<SyncGetPriceVariation>
