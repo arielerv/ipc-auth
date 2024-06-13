@@ -1,4 +1,4 @@
-import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections, getReferenceSurveys } from './sync.services';
+import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections, getReferenceSurveys, getPriceActiveVariation } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
 import { getWorkloadResponse } from '../../utils/responseMessages';
 import { HandlerGetSurveys } from '../sync/sync.types';
@@ -91,6 +91,15 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
 
+        // get Price active Variation
+        const responsePriceVariation = await getPriceActiveVariation(token);
+        const variations = responsePriceVariation.variations;
+        if(!responsePriceVariation.success) {
+            return res.status(300).json(
+                ApiResponse.errorResponseStep({ error: 'getPriceVariation', message: responsePriceVariation?.message || 'error' })
+            );
+        }
+
         const workloadMessage = getWorkloadResponse(responseWorkload.panels, surveys);
         
         res.status(200).json(ApiResponse.successResponse({
@@ -98,7 +107,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             referenceSurveys: responseReferenceSurveys.referenceSurveys || [],
             surveys: responseSurveys.surveys,
             message: workloadMessage || responseReferenceSurveys.message || responseSurveys.message,
-            staticData: { informantRejections, priceTypes, formRejections, ...responseWorkload.meta },
+            staticData: { informantRejections, priceTypes, formRejections, variations },
         }));
     } catch (err) {
         next(err);
