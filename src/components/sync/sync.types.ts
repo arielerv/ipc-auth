@@ -15,9 +15,16 @@ export interface Survey {
     date: Date,
     entityId: number,
     complete: boolean,
+    locations: unknown[]
+    order: SurveyOrder[],
     data: {
         [key: number | string]: DataEntry
     }
+}
+
+interface SurveyOrder {
+  panelId: number;
+  order: number[];
 }
 
 interface DataEntry {
@@ -38,12 +45,72 @@ export type HandlerSync = (req: Request<null, null, null, RequestQuerySync>, res
 
 export type HandlerSyncUpdate = (req: Request<null, null, RequestBodySyncUpdate>, res: Response, next: NextFunction) => Promise<Response>
 
-type SyncResponse = {
+export type SyncResponse = {
     success?: boolean;
     meta?: unknown[];
-    panels?: unknown[];
+    panels?: Panel[];
     message?: string
 }
+
+interface FormItem {
+  id: string;
+  name: string;
+}
+
+interface Attribute {
+  id: number;
+  name: string;
+  label: string;
+  attributeDataType: string;
+  validations: {
+      disabled: string;
+      max: number | null;
+      min: number | null;
+  };
+}
+
+interface Variety {
+  id: string;
+  name: string;
+  details: string;
+  observation: number;
+  attributes: Attribute[];
+}
+
+interface Form {
+  id: number;
+  name: string;
+  formItems: FormItem[];
+  varieties: Variety[];
+}
+
+export interface Informant {
+  id: number;
+  name: string;
+  roadmap: number;
+  street: string;
+  informantType: string;
+  doorNumber: string;
+  state: string;
+  itemName: string;
+  phone: string[];
+  forms: Form[];
+}
+
+interface Panel {
+  id: number;
+  name: string;
+  roadmaps: Roadmap[];
+  entityId: number;
+  informants: Informant[];
+}
+
+interface Roadmap {
+  id: number;
+  name: string;
+  localities: any[];
+}
+
 
 type SyncUpdateResponse = {
     success?: boolean;
