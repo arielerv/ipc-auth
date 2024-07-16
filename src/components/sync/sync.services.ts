@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { config } from '../../helpers';
 import getSearchParams from '../../utils/getSearchParams';
-import { Sync, SyncUpdate, GetSurveys, GetInformantReasonsRejected, GetPriceTypes, GetFormRejections, GetReferenceSurveys } from './sync.types';
+import { Sync, SyncUpdate, GetSurveys, GetInformantReasonsRejected, GetPriceTypes, GetFormRejections, GetReferenceSurveys, GetPriceVariation } from './sync.types';
 
 const API = `${config.ENDPOINT}/public-api`;
 
@@ -68,6 +68,18 @@ export const getPriceTypes: GetPriceTypes = async (token) => {
 
 export const getFormRejections: GetFormRejections = async (token) => {
     const response = await fetch(`${API}/forms/rejections`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+    });
+    return response.json();
+};
+
+export const getPriceActiveVariation: GetPriceVariation = async (token) => {
+    const response = await fetch(`${API}/variations/active`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,

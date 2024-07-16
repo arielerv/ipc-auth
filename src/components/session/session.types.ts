@@ -73,7 +73,7 @@ export type Token = string;
 
 export type HandlerLogin = (req: RequestBody<Login>, res: Response, next: NextFunction) => Promise<Response<{user: object}>>
 
-type ArqLoginResponse = {
+ type ArqLoginResponse = {
     user?: UserArq,
     token?: Token,
     message?: string

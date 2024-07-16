@@ -1,6 +1,7 @@
-import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections, getReferenceSurveys } from './sync.services';
+import { getWorkload, updateSurvey, getSurveys, getInformantReasonsRejected, getPriceTypes, getFormRejections, getReferenceSurveys, getPriceActiveVariation } from './sync.services';
 import ApiResponse from '../../utils/apiResponse';
 import { getWorkloadResponse } from '../../utils/responseMessages';
+import { orderWorkloadInformants } from '../../utils/workloadOrder';
 import { HandlerGetSurveys } from '../sync/sync.types';
 import SyncLog from '../../schemas/syncLog';
 import { Types } from 'mongoose';
@@ -16,7 +17,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
         }
         const token = header.replace('Bearer ', '');
         const month = req.query?.month ? Number(req.query?.month) : new Date().getMonth() + 1;
-        const surveys = req.body?.surveys ;
+        const surveys = req.body?.surveys;
         const date = new Date();
         //Update surveys
         if(surveys?.length) {
@@ -66,7 +67,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
         }
 
         //get Reference Surveys
-        const responseReferenceSurveys = await getReferenceSurveys(token, req.query);
+        const responseReferenceSurveys = await getReferenceSurveys(token, { userId:req.query.userId, day: req.query.day });
         if(responseSurveys.message || !responseSurveys.success) {
             return res.status(300).json(
                 ApiResponse.errorResponseStep({ error: 'getSurveys', message: responseReferenceSurveys?.message || 'error' })
@@ -91,14 +92,23 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             );
         }
 
+        // get Price active Variation
+        const responsePriceVariation = await getPriceActiveVariation(token);
+        const variations = responsePriceVariation.variations;
+        if(!responsePriceVariation.success) {
+            return res.status(300).json(
+                ApiResponse.errorResponseStep({ error: 'getPriceVariation', message: responsePriceVariation?.message || 'error' })
+            );
+        }
+
         const workloadMessage = getWorkloadResponse(responseWorkload.panels, surveys);
         
         res.status(200).json(ApiResponse.successResponse({
-            workload: responseWorkload.panels,
+            workload: responseWorkload.panels && surveys?.length !== 0 ? orderWorkloadInformants(responseWorkload, surveys).panels : responseWorkload.panels,
             referenceSurveys: responseReferenceSurveys.referenceSurveys || [],
             surveys: responseSurveys.surveys,
             message: workloadMessage || responseReferenceSurveys.message || responseSurveys.message,
-            staticData: { informantRejections, priceTypes, formRejections },
+            staticData: { informantRejections, priceTypes, formRejections, variations },
         }));
     } catch (err) {
         next(err);
