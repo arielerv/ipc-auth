@@ -4,6 +4,7 @@ import { getWorkloadResponse } from '../../utils/responseMessages';
 import { orderWorkloadInformants } from '../../utils/workloadOrder';
 import { HandlerGetSurveys } from '../sync/sync.types';
 import SyncLog from '../../schemas/syncLog';
+import WorkloadLog from '../../schemas/workloadLog';
 import { Types } from 'mongoose';
 import { messages } from '@/constants';
 
@@ -100,6 +101,22 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
                 ApiResponse.errorResponseStep({ error: 'getPriceVariation', message: responsePriceVariation?.message || 'error' })
             );
         }
+
+        //save workload log
+        const workloadLog = new WorkloadLog({
+            '_id': new Types.ObjectId(),
+            userId: req.query.userId,
+            day: req.query.day,
+            month,
+            year: date.getFullYear(),
+            workload: responseWorkload ? JSON.stringify(responseWorkload) : null,
+            responseSurveys: responseSurveys ? JSON.stringify(responseSurveys) : null,
+            referenceSurveys: responseReferenceSurveys ? JSON.stringify(responseReferenceSurveys) : null,
+            priceTypes: responsePriceTypes ? JSON.stringify(responsePriceTypes) : null,
+            formRejections: responseFormRejections ? JSON.stringify(responseFormRejections) : null,
+            priceVariaton : responsePriceVariation ? JSON.stringify(responsePriceVariation) : null, 
+        });
+        await workloadLog.save();
 
         const workloadMessage = getWorkloadResponse(responseWorkload.panels, surveys);
         
