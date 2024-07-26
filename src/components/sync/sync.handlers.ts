@@ -20,15 +20,6 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
         const month = req.query?.month ? Number(req.query?.month) : new Date().getMonth() + 1;
         const surveys = req.body?.surveys;
         const date = new Date();
-        //Update surveys
-        if(surveys?.length) {
-            const responseUpdate = await updateSurvey(token, surveys);
-            if(!responseUpdate.success) {
-                return res.status(300).json(
-                    ApiResponse.errorResponseStep({ error: 'updateSurvey', message: responseUpdate?.message || 'error' })
-                );
-            }
-        }
 
         //save sync log
         const syncLog = new SyncLog({
@@ -40,6 +31,16 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             surveys: surveys?.length ? JSON.stringify(surveys) : null,
         });
         await syncLog.save();
+
+        //Update surveys
+        if(surveys?.length) {
+            const responseUpdate = await updateSurvey(token, surveys);
+            if(!responseUpdate.success) {
+                return res.status(300).json(
+                    ApiResponse.errorResponseStep({ error: 'updateSurvey', message: responseUpdate?.message || 'error' })
+                );
+            }
+        }
 
         //get workload
         const responseWorkload = await getWorkload(token, { ...req.query, month });
