@@ -26,7 +26,14 @@ export const handlerLogin: HandlerLogin = async (req, res, next) => {
                 ApiResponse.errorResponse({ message: messages.USER_NOT_FOUND })
             );
         }
+
+        if(!responseArq.token) {
+            return res.status(404).json(
+                ApiResponse.errorResponse({ message: messages.INVALID_TOKEN })
+            );
+        }
         const responseIPC = await getUserData(responseArq.token, responseArq.user.id);
+
         if(!responseIPC.user) {
             return res.status(404).json(
                 ApiResponse.errorResponse({ message: messages.USER_NOT_IMPORT })
