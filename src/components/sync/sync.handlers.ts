@@ -4,6 +4,7 @@ import { getWorkloadResponse } from '../../utils/responseMessages';
 import { orderWorkloadInformants } from '../../utils/workloadOrder';
 import { HandlerGetSurveys } from '../sync/sync.types';
 import SyncLog from '../../schemas/syncLog';
+import WorkloadLog from '../../schemas/workloadLog';
 import { Types } from 'mongoose';
 import { messages } from '@/constants';
 
@@ -19,15 +20,6 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
         const month = req.query?.month ? Number(req.query?.month) : new Date().getMonth() + 1;
         const surveys = req.body?.surveys;
         const date = new Date();
-        //Update surveys
-        if(surveys?.length) {
-            const responseUpdate = await updateSurvey(token, surveys);
-            if(!responseUpdate.success) {
-                return res.status(300).json(
-                    ApiResponse.errorResponseStep({ error: 'updateSurvey', message: responseUpdate?.message || 'error' })
-                );
-            }
-        }
 
         //save sync log
         const syncLog = new SyncLog({
@@ -39,6 +31,16 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             surveys: surveys?.length ? JSON.stringify(surveys) : null,
         });
         await syncLog.save();
+
+        //Update surveys
+        if(surveys?.length) {
+            const responseUpdate = await updateSurvey(token, surveys);
+            if(!responseUpdate.success) {
+                return res.status(300).json(
+                    ApiResponse.errorResponseStep({ error: 'updateSurvey', message: responseUpdate?.message || 'error' })
+                );
+            }
+        }
 
         //get workload
         const responseWorkload = await getWorkload(token, { ...req.query, month });
@@ -100,6 +102,22 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
                 ApiResponse.errorResponseStep({ error: 'getPriceVariation', message: responsePriceVariation?.message || 'error' })
             );
         }
+
+        //save workload log
+        const workloadLog = new WorkloadLog({
+            '_id': new Types.ObjectId(),
+            userId: req.query.userId,
+            day: req.query.day,
+            month,
+            year: date.getFullYear(),
+            workload: responseWorkload ? JSON.stringify(responseWorkload) : null,
+            responseSurveys: responseSurveys ? JSON.stringify(responseSurveys) : null,
+            referenceSurveys: responseReferenceSurveys ? JSON.stringify(responseReferenceSurveys) : null,
+            priceTypes: responsePriceTypes ? JSON.stringify(responsePriceTypes) : null,
+            formRejections: responseFormRejections ? JSON.stringify(responseFormRejections) : null,
+            priceVariaton : responsePriceVariation ? JSON.stringify(responsePriceVariation) : null, 
+        });
+        await workloadLog.save();
 
         const workloadMessage = getWorkloadResponse(responseWorkload.panels, surveys);
         
