@@ -1,6 +1,6 @@
 import { Survey, SyncResponse, Informant } from '../components/sync/sync.types';
 
-export const orderWorkloadInformants = (responseWorkload: SyncResponse, surveys: Survey[]): SyncResponse => {
+export const orderWorkloadInformants = (responseWorkload: SyncResponse, surveys : Survey[] = []): SyncResponse => {
     responseWorkload.panels.forEach(panel => {
         const surveyOrder = surveys.find(survey => survey.order.some(o => o.panelId === panel.id));
         if (surveyOrder) {
