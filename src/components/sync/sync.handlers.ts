@@ -19,6 +19,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
         const token = header.replace('Bearer ', '');
         const month = req.query?.month ? Number(req.query?.month) : new Date().getMonth() + 1;
         const surveys = req.body?.surveys;
+        const progress = req.body?.progress;
         const date = new Date();
 
         //save sync log
@@ -29,6 +30,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             month,
             year: date.getFullYear(),
             surveys: surveys?.length ? JSON.stringify(surveys) : null,
+            progress: progress?.length ?JSON.stringify(progress) : null,
         });
         await syncLog.save();
 
