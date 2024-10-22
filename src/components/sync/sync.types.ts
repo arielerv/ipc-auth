@@ -7,7 +7,7 @@ export type RequestQuerySync = {
     month?: string | number;
 }
 
-export type RequestBodySyncUpdate = {surveys: Array<Survey>}
+export type RequestBodySyncUpdate = {surveys: Array<Survey>, progress: Array<Progress>}
 
 export interface Survey {
     userId: string,
@@ -20,6 +20,14 @@ export interface Survey {
     data: {
         [key: number | string]: DataEntry
     }
+}
+
+export interface Progress {
+  total: number,
+  progress: number,
+  percentage: number,
+  panelId: number,
+  entityId: number,
 }
 
 interface SurveyOrder {
