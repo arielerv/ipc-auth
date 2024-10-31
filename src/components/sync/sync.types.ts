@@ -23,11 +23,24 @@ export interface Survey {
 }
 
 export interface Progress {
-  total: number,
-  progress: number,
-  percentage: number,
-  panelId: number,
   entityId: number,
+  filled: number,
+  id: number,
+  informants: Informants[],
+  total: number,
+}
+
+type Informants = {
+  id: number,
+  filled: number,
+  total: number,
+  forms: Forms [],
+}
+
+type Forms = {
+  id: number,
+  filled: number,
+  total: number,
 }
 
 interface SurveyOrder {
