@@ -1,4 +1,4 @@
-import { logger } from '../helpers';
+import { logger } from '@/helpers';
 
 const parseError = (error: string): Record<string, unknown> | string => {
     let errorParsed;

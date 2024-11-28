@@ -1,4 +1,5 @@
 import { createLogger, format, transports } from 'winston';
+
 const { combine, timestamp, json, colorize } = format;
 
 const logger = createLogger({
@@ -6,7 +7,7 @@ const logger = createLogger({
         timestamp({
             format: 'YYYY-MM-DD HH:mm:ss',
         }),
-        json()
+        json(),
     ),
     transports: [
         new transports.Console({
@@ -14,7 +15,7 @@ const logger = createLogger({
             format: combine(
                 colorize({
                     all: true,
-                })
+                }),
             ),
         }),
     ],
@@ -23,7 +24,7 @@ const logger = createLogger({
             format: combine(
                 colorize({
                     all: true,
-                })
+                }),
             ),
         }),
         new transports.Console({
@@ -31,7 +32,7 @@ const logger = createLogger({
             format: combine(
                 colorize({
                     all: true,
-                })
+                }),
             ),
         }),
     ],

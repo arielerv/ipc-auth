@@ -1,20 +1,25 @@
-import { Survey, SyncResponse, Informant } from '../components/sync/sync.types';
+import { Informant, Panel, Survey } from '@/components/sync/sync.types';
 
-export const orderWorkloadInformants = (responseWorkload: SyncResponse, surveys : Survey[] = []): SyncResponse => {
-    responseWorkload.panels.forEach(panel => {
-        const surveyOrder = surveys.find(survey => survey.order.some(o => o.panelId === panel.id));
-        if (surveyOrder) {
-            const panelOrder = surveyOrder.order.find(o => o.panelId === panel.id);
-            if (panelOrder) {
-                const informantOrder = panelOrder.order;
-                const informantMap: { [key: number]: Informant } = {};
-                panel.informants.forEach(informant => {
+type InformantMap = { [key: number]: Informant };
+
+export const orderWorkloadInformants = (panels: Panel[], surveys: Survey[] = []): Panel[] =>
+    panels.reduce((acc, panel) => {
+        const surveyOrder = surveys.find((survey) => survey.order.some((o) => o.panelId === panel.id))?.order;
+
+        if (surveyOrder?.length) {
+            const panelOrder = surveyOrder.find((order) => order.panelId === panel.id)?.order;
+            if (panelOrder?.length) {
+                const excludedInformants = panel.informants.filter((informant) => !panelOrder.includes(informant.id));
+                const informantMap: InformantMap = {};
+                panel.informants.forEach((informant) => {
                     informantMap[informant.id] = informant;
                 });
-                panel.informants = informantOrder.map(id => informantMap[id]).filter(Boolean);
+                panel.informants = panelOrder
+                    .map((id) => informantMap[id])
+                    .concat(excludedInformants)
+                    .filter(Boolean);
             }
         }
-    });
-    return responseWorkload;
-};
-
+        acc.push(panel);
+        return acc;
+    }, []);

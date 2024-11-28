@@ -4,7 +4,7 @@ const getSyncEndpoint: SyncEndpoints = {
     '/sync/': {
         post: {
             tags: ['Sync'],
-            security: [{ bearerAuth: [ ] }],
+            security: [{ bearerAuth: [] }],
             description: 'Sync endpoint',
             operationId: 'handleSync',
             parameters: [
@@ -66,20 +66,20 @@ const getSyncEndpoint: SyncEndpoints = {
                         },
                         example: [
                             {
-                                'id': 1690987540672,
-                                'userId': '5af2d2b2-8f85-4146-bd4f-79ed06b36c16',
-                                'date': '1/6/23',
-                                'panelId': 1,
-                                'entityId': 1,
-                                'complete': true,
-                                'data': {
+                                id: 1690987540672,
+                                userId: '5af2d2b2-8f85-4146-bd4f-79ed06b36c16',
+                                date: '1/6/23',
+                                panelId: 1,
+                                entityId: 1,
+                                complete: true,
+                                data: {
                                     '100001': {
                                         '1019': {
                                             '1111402': {
-                                                'price': 200,
-                                                'type': 'A',
+                                                price: 200,
+                                                type: 'A',
                                                 '136': 1,
-                                                'complete': true,
+                                                complete: true,
                                             },
                                         },
                                     },
@@ -233,11 +233,7 @@ const getSyncEndpoint: SyncEndpoints = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                required: [
-                                    'code',
-                                    'message',
-                                    'success',
-                                ],
+                                required: ['code', 'message', 'success'],
                                 properties: {
                                     code: {
                                         type: 'integer',
