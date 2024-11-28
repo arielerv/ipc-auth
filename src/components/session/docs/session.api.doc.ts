@@ -42,45 +42,45 @@ const getSessionEndpoint: SessionsEndpoint = {
                                         nullable: true,
                                     },
                                     user: {
-                                        allOf: [{
-                                            type: 'object',
-                                            properties: {
-                                                id: {
-                                                    type: 'string',
-                                                    format: 'uuid',
-                                                },
-                                                username: {
-                                                    type: 'string',
-                                                    nullable: true,
-                                                },
-                                                name: {
-                                                    type: 'string',
-                                                    nullable: true,
-                                                },
-                                                surname: {
-                                                    type: 'string',
-                                                    nullable: true,
-                                                },
-                                                documentId: {
-                                                    type: 'string',
-                                                    nullable: true,
-                                                },
-                                                email: {
-                                                    type: 'string',
-                                                    format: 'email',
-                                                },
-                                                deleted: {
-                                                    type: 'boolean',
-                                                },
-                                                active: {
-                                                    type: 'boolean',
+                                        allOf: [
+                                            {
+                                                type: 'object',
+                                                properties: {
+                                                    id: {
+                                                        type: 'string',
+                                                        format: 'uuid',
+                                                    },
+                                                    username: {
+                                                        type: 'string',
+                                                        nullable: true,
+                                                    },
+                                                    name: {
+                                                        type: 'string',
+                                                        nullable: true,
+                                                    },
+                                                    surname: {
+                                                        type: 'string',
+                                                        nullable: true,
+                                                    },
+                                                    documentId: {
+                                                        type: 'string',
+                                                        nullable: true,
+                                                    },
+                                                    email: {
+                                                        type: 'string',
+                                                        format: 'email',
+                                                    },
+                                                    deleted: {
+                                                        type: 'boolean',
+                                                    },
+                                                    active: {
+                                                        type: 'boolean',
+                                                    },
                                                 },
                                             },
-                                        }],
-                                        type: 'object',
-                                        required: [
-                                            'roles',
                                         ],
+                                        type: 'object',
+                                        required: ['roles'],
                                         properties: {
                                             role: {
                                                 type: 'array',
@@ -100,11 +100,7 @@ const getSessionEndpoint: SessionsEndpoint = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                required: [
-                                    'code',
-                                    'message',
-                                    'success',
-                                ],
+                                required: ['code', 'message', 'success'],
                                 properties: {
                                     code: {
                                         type: 'integer',
