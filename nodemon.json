@@ -1,1 +1,6 @@
-{ "watch": "src/**/*", "ext": "ts", "exec": "npm start", "ignore": "src/**/*.test" }
+{
+  "watch": ["src"],
+  "ext": "ts",
+  "exec": "ts-node -r module-alias/register src/index.ts",
+  "ignore": ["src/**/*.test.ts"]
+}

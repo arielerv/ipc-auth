@@ -1,7 +1,16 @@
 import fetch from 'node-fetch';
-import { config } from '../../helpers';
-import getSearchParams from '../../utils/getSearchParams';
-import { Sync, SyncUpdate, GetSurveys, GetInformantReasonsRejected, GetPriceTypes, GetFormRejections, GetReferenceSurveys, GetPriceVariation } from './sync.types';
+import { config } from '@/helpers';
+import getSearchParams from '@/utils/getSearchParams';
+import {
+    GetFormRejections,
+    GetInformantReasonsRejected,
+    GetPriceTypes,
+    GetPriceVariation,
+    GetReferenceSurveys,
+    GetSurveys,
+    Sync,
+    SyncUpdate,
+} from './sync.types';
 
 const API = `${config.ENDPOINT}/public-api`;
 
@@ -101,4 +110,3 @@ export const getReferenceSurveys: GetReferenceSurveys = async (token, queries) =
     });
     return response.json();
 };
-

@@ -1,7 +1,9 @@
-import { logger } from './helpers';
 import http from 'http';
-import app from './app';
 import dotenv from 'dotenv';
+import { logger } from './helpers';
+import app from './app';
+import 'module-alias/register';
+
 dotenv.config();
 
 interface AddressInfo {

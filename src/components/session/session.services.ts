@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { config } from '../../helpers';
+import { config } from '@/helpers';
 import { GetUserData, LoginService } from './session.types';
 
 const API = `${config.ENDPOINT}/v1/users`;

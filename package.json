@@ -6,8 +6,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --reporter=spec",
-    "test:ci": "NODE_ENV=test ./node_modules/.bin/mocha --timeout=10000 --reporter=spec --check-leaks",
+    "test": "NODE_ENV=test mocha -r ts-node/register -r module-alias/register --reporter=spec 'src/**/*.test.ts'",
     "coverage": "./node_modules/.bin/nyc --reporter=text-summary npm run test:ci",
     "coverage:verbose": "./node_modules/.bin/nyc --reporter=html --reporter=text npm run test:ci",
     "build": "./node_modules/.bin/tsc -p .",
@@ -15,6 +14,9 @@
     "start": "node --trace-warnings ./dist/src/index.js",
     "dev": "nodemon",
     "prepare": "husky install"
+  },
+  "_moduleAliases": {
+    "@": "src"
   },
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
@@ -69,12 +71,13 @@
     "nyc": "^15.1.0",
     "organize-imports-cli": "^0.10.0",
     "plop": "^4.0.0",
-    "prettier": "^3.1.1"
+    "prettier": "^3.4.1"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
+    "express": "^4.21.1",
+    "module-alias": "^2.2.3",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
     "node-fetch": "2.7.0",

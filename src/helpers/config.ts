@@ -4,7 +4,7 @@ dotenv.config();
 
 class Config {
     private static instance: Config;
-    public readonly CORS_ORIGINS: string;
+    public readonly CORS_ORIGINS: string | undefined;
     public readonly NODE_ENV: string;
     public readonly APP_PORT: string;
     public readonly BODY_LIMIT: string;
