@@ -11,8 +11,8 @@
     "coverage:verbose": "./node_modules/.bin/nyc --reporter=html --reporter=text npm run test:ci",
     "build": "./node_modules/.bin/tsc -p .",
     "prestart": "npm run build",
-    "start": "node -r tsconfig-paths/register ./dist/src/index.js",
-    "dev": "nodemon",
+    "start": "node -r tsconfig-paths/register dist/src/index.js",
+    "dev": "nodemon -r tsconfig-paths/register src/index.ts",
     "prepare": "husky install"
   },
   "_moduleAliases": {
