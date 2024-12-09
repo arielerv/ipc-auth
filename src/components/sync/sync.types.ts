@@ -137,7 +137,7 @@ export interface Panel {
 interface Roadmap {
     id: number;
     name: string;
-    localities: any[];
+    localities: never[];
 }
 
 type SyncUpdateResponse = {
