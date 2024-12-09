@@ -11,12 +11,12 @@
     "coverage:verbose": "./node_modules/.bin/nyc --reporter=html --reporter=text npm run test:ci",
     "build": "./node_modules/.bin/tsc -p .",
     "prestart": "npm run build",
-    "start": "node --trace-warnings ./dist/src/index.js",
+    "start": "node -r tsconfig-paths/register ./dist/src/index.js",
     "dev": "nodemon",
     "prepare": "husky install"
   },
   "_moduleAliases": {
-    "@": "src"
+    "@": "dist/src"
   },
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
@@ -85,6 +85,7 @@
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "5.0.0",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3",
     "winston": "^3.11.0"
   }

@@ -1,8 +1,9 @@
+import 'module-alias/register';
+
 import http from 'http';
 import dotenv from 'dotenv';
-import { logger } from './helpers';
+import { logger } from '@/helpers';
 import app from './app';
-import 'module-alias/register';
 
 dotenv.config();
 
