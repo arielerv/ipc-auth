@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
+import { customCss, swaggerOptions } from '@/utils/swagger/swaggerOptions';
 import documentation from './documentation';
-import { swaggerOptions, customCss } from '../../utils/swagger/swaggerOptions';
 
 export default (app: Application): void => {
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(documentation, { swaggerOptions, customCss }));

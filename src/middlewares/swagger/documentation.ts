@@ -1,7 +1,7 @@
 import swagger from 'swagger-jsdoc';
-import HealthDocs from '../../components/health/docs';
-import SessionDocs from '../../components/session/docs';
-import SyncDocs from '../../components/sync/docs';
+import HealthDocs from '@/components/health/docs';
+import SessionDocs from '@/components/session/docs';
+import SyncDocs from '@/components/sync/docs';
 
 const documentation: swagger.OAS3Options = {
     definition: {
