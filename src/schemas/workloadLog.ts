@@ -11,7 +11,7 @@ const workloadLogsSchema = {
     referenceSurveys: { type: String },
     priceTypes: { type: String },
     formRejections: { type: String },
-    priceVariaton : { type: String },
+    priceVariaton: { type: String },
 };
 
 const customSchema = new Schema(workloadLogsSchema, {

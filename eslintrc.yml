@@ -12,12 +12,15 @@ parserOptions:
   sourceType: module
   project:
     - "./tsconfig.json"
-    - "./tsconfig.eslint.json"
 plugins:
   - "@typescript-eslint"
 settings:
   "import/resolver":
-    typescript: {}
+    typescript:
+      project: "./tsconfig.json"
+    node:
+      paths: ["src"]
+      extensions: [".js", ".jsx", ".ts", ".tsx"]
 ignorePatterns:
   - ".eslintrc.yml"
   - "dist/*"

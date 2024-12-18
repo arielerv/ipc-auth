@@ -1,6 +1,6 @@
-import { logger } from '../../helpers';
 import { Handler } from 'express';
 import morgan from 'morgan';
+import { logger } from '@/helpers';
 
 export default (): Handler =>
     morgan('tiny', {

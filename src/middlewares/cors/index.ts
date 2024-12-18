@@ -1,5 +1,5 @@
 import cors, { CorsOptions } from 'cors';
-import { config } from '../../helpers';
+import { config } from '@/helpers';
 
 const isAcceptedOrigin = (origin: string): boolean => {
     const origins = config.CORS_ORIGINS ? config.CORS_ORIGINS.split(',') : [];
