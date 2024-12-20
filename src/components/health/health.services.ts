@@ -1,6 +1,6 @@
 import { GetHealthStatus } from './health.types';
 import fetch from 'node-fetch';
-import { config } from '../../helpers';
+import { config } from '@/helpers';
 
 const API = `${config.ENDPOINT}/`;
 const AUTH_API = `${config.AUTH_ENDPOINT}/`;

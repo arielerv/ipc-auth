@@ -1,5 +1,5 @@
-import { logger } from '../../helpers';
 import { Request, Response } from 'express';
+import { logger } from '@/helpers';
 
 export default function notFoundMiddleware(req: Request, res: Response): void {
     logger.error('Not Found', {

@@ -4,10 +4,12 @@ import {
     CreateIBulkResponse,
     ErrorResponse,
     IBulkResponse,
-    IErrorResponse, IErrorResponseStep,
+    IErrorResponse,
+    IErrorResponseStep,
     ISuccessResponse,
     Status,
-    SuccessResponse, SuccessResponseSurvey,
+    SuccessResponse,
+    SuccessResponseSurvey,
 } from './apiResponse.types';
 
 class ApiResponse {
@@ -42,9 +44,8 @@ class ApiResponse {
     static bulkResponse(bulkResponse: CreateIBulkResponse): BulkResponse {
         let bulkStatus = BulkStatus.success;
         const bulkResponses = bulkResponse.data;
-        const errors = bulkResponses.filter((response: {status: Status}) => response.status === Status.error).length;
-        if (errors && errors === bulkResponses.length)
-            bulkStatus = BulkStatus.error;
+        const errors = bulkResponses.filter((response: { status: Status }) => response.status === Status.error).length;
+        if (errors && errors === bulkResponses.length) bulkStatus = BulkStatus.error;
         else if (errors) {
             bulkStatus = BulkStatus.partial;
         }
