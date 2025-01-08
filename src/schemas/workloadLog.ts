@@ -6,8 +6,8 @@ const workloadLogsSchema = {
     day: { type: Number },
     month: { type: Number },
     year: { type: Number },
-    workload: { type: String },
     syncLogId: { type: Types.ObjectId, ref: 'SyncLog' },
+    workload: { type: String },
     responseSurveys: { type: String },
     referenceSurveys: { type: String },
     priceTypes: { type: String },
@@ -21,6 +21,6 @@ const customSchema = new Schema(workloadLogsSchema, {
     versionKey: false,
 });
 
-const customModel = models.Team || model('WorkloadLog', customSchema);
+const customModel = models.WorkloadLog || model('WorkloadLog', customSchema);
 
 export default customModel;

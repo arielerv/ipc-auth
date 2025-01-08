@@ -16,6 +16,6 @@ const customSchema = new Schema(syncLogsSchema, {
     versionKey: false,
 });
 
-const customModel = models.Team || model('SyncLog', customSchema);
+const customModel = models.SyncLog || model('SyncLog', customSchema);
 
 export default customModel;
