@@ -7,11 +7,12 @@ const workloadLogsSchema = {
     month: { type: Number },
     year: { type: Number },
     workload: { type: String },
+    syncLogId: { type: Types.ObjectId, ref: 'SyncLog' },
     responseSurveys: { type: String },
     referenceSurveys: { type: String },
     priceTypes: { type: String },
     formRejections: { type: String },
-    priceVariaton: { type: String },
+    priceVariation: { type: String },
 };
 
 const customSchema = new Schema(workloadLogsSchema, {
