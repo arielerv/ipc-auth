@@ -39,7 +39,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             surveys: surveys?.length ? JSON.stringify(surveys) : null,
             progress: progress?.length ? JSON.stringify(progress) : null,
         });
-        await syncLog.save();
+        const savedLog = await syncLog.save();
 
         //Update surveys
         if (surveys?.length) {
@@ -144,6 +144,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             _id: new Types.ObjectId(),
             userId: req.query.userId,
             day: req.query.day,
+            syncLogId: savedLog._id,
             month,
             year: date.getFullYear(),
             workload: responseWorkload ? JSON.stringify(responseWorkload) : null,
@@ -151,7 +152,7 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             referenceSurveys: responseReferenceSurveys ? JSON.stringify(responseReferenceSurveys) : null,
             priceTypes: responsePriceTypes ? JSON.stringify(responsePriceTypes) : null,
             formRejections: responseFormRejections ? JSON.stringify(responseFormRejections) : null,
-            priceVariaton: responsePriceVariation ? JSON.stringify(responsePriceVariation) : null,
+            priceVariation: responsePriceVariation ? JSON.stringify(responsePriceVariation) : null,
         });
         await workloadLog.save();
 
