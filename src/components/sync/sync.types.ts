@@ -7,7 +7,14 @@ export type RequestQuerySync = {
     month?: string | number;
 };
 
-export type RequestBodySyncUpdate = { surveys: Array<Survey>; progress: Array<Progress> };
+export type RequestBodySyncUpdate = {
+    surveys: Array<Survey>;
+    progress: Array<Progress>
+    username: string,
+    name: string,
+    packageName: string,
+    panels: number[],
+};
 
 export interface Survey {
     userId: string;
