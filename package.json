@@ -71,7 +71,8 @@
     "nyc": "^15.1.0",
     "organize-imports-cli": "^0.10.0",
     "plop": "^4.0.0",
-    "prettier": "^3.4.1"
+    "prettier": "^3.4.1",
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -84,7 +85,6 @@
     "save-dev": "^0.0.1-security",
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "5.0.0",
-    "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3",
     "winston": "^3.11.0"
