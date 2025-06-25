@@ -3,10 +3,11 @@ import { config } from '@/helpers';
 import { GetUserData, LoginService } from './session.types';
 
 const API = `${config.ENDPOINT}/v1/users`;
-const OAUTH_API = `${config.AUTH_ENDPOINT}/oauth`;
+const PUBLIC_API = `${config.ENDPOINT}/public-api`;
+
 
 export const login: LoginService = async (body) => {
-    const response = await fetch(`${OAUTH_API}/login`, {
+    const response = await fetch(`${PUBLIC_API}/login`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
