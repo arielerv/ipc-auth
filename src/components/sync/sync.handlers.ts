@@ -35,6 +35,10 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             userId: req.query.userId,
             day: req.query.day,
             month,
+            username: req.body.username,
+            name: req.body.name,
+            packageName: req.body.packageName,
+            panels: req.body.panels,
             year: date.getFullYear(),
             surveys: surveys?.length ? JSON.stringify(surveys) : null,
             progress: progress?.length ? JSON.stringify(progress) : null,
@@ -153,6 +157,10 @@ export const handleSync: HandlerGetSurveys = async (req, res, next) => {
             priceTypes: responsePriceTypes ? JSON.stringify(responsePriceTypes) : null,
             formRejections: responseFormRejections ? JSON.stringify(responseFormRejections) : null,
             priceVariation: responsePriceVariation ? JSON.stringify(responsePriceVariation) : null,
+            username: req.body.username,
+            name: req.body.name,
+            packageName: req.body.packageName,
+            panels: req.body.panels,
         });
         await workloadLog.save();
 
