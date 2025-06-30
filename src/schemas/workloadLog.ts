@@ -13,6 +13,10 @@ const workloadLogsSchema = {
     priceTypes: { type: String },
     formRejections: { type: String },
     priceVariation: { type: String },
+    username: { type: String },
+    name: { type: String },
+    packageName: { type: String },
+    panels: { type: [Number] },
 };
 
 const customSchema = new Schema(workloadLogsSchema, {

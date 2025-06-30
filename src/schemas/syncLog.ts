@@ -8,6 +8,10 @@ const syncLogsSchema = {
     year: { type: Number },
     surveys: { type: String },
     progress: { type: String },
+    username: { type: String },
+    name: { type: String },
+    packageName: { type: String },
+    panels: { type: [Number] },
 };
 
 const customSchema = new Schema(syncLogsSchema, {
