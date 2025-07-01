@@ -1,13 +1,11 @@
 import fetch from 'node-fetch';
 import { config } from '@/helpers';
 import { GetUserData, LoginService } from './session.types';
-import https from 'https';
 
 const API = `${config.ENDPOINT}/v1/users`;
 const OAUTH_API = `${config.AUTH_ENDPOINT}/oauth`;
 
 export const login: LoginService = async (body) => {
-    const agent = new https.Agent({ rejectUnauthorized: false });
     const response = await fetch(`${OAUTH_API}/login`, {
         method: 'POST',
         body: JSON.stringify(body),
@@ -16,7 +14,6 @@ export const login: LoginService = async (body) => {
             clientId: config.AUTH_CLIENT_ID,
             redirectUri: config.AUTH_REDIRECT_URI,
         },
-        agent,
     });
     return response.json();
 };
