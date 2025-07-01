@@ -17,11 +17,11 @@ export const handlerLogin: HandlerLogin = async (req, res, next) => {
             return res.status(403).json(ApiResponse.errorResponse({ message: messages.USER_WRONG_ROLE }));
         }
 
-        if (!responseArq.user) {
+        if (!responseArq.user || !responseArq.user.id) {
             return res.status(404).json(ApiResponse.errorResponse({ message: messages.USER_NOT_FOUND }));
         }
         const responseIPC = await getUserData(responseArq.token, responseArq.user.id);
-        if (!responseIPC.user) {
+        if (!responseIPC.user || !responseIPC.user.id) {
             return res.status(404).json(ApiResponse.errorResponse({ message: messages.USER_NOT_IMPORT }));
         }
 
